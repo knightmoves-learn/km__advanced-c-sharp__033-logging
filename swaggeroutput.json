@@ -1,0 +1,435 @@
+
+      {
+        "openapi": "3.0.4",
+        "info": {
+          "title": "Home Energy Api V1",
+          "version": "v1"
+        },
+        "paths": {
+          "/v1/authentication/register": {
+            "post": {
+              "tags": [
+                "AuthenticationV"
+              ],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/UserDtoV1"
+                    }
+                  },
+                  "text/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/UserDtoV1"
+                    }
+                  },
+                  "application/*+json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/UserDtoV1"
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "OK"
+                }
+              }
+            }
+          },
+          "/v1/authentication/token": {
+            "post": {
+              "tags": [
+                "AuthenticationV"
+              ],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/UserDtoV1"
+                    }
+                  },
+                  "text/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/UserDtoV1"
+                    }
+                  },
+                  "application/*+json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/UserDtoV1"
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "OK"
+                }
+              }
+            }
+          },
+          "/admin/Homes": {
+            "post": {
+              "tags": [
+                "HomeAdmin"
+              ],
+              "parameters": [
+                {
+                  "name": "api-version",
+                  "in": "query",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HomeDto"
+                    }
+                  },
+                  "text/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HomeDto"
+                    }
+                  },
+                  "application/*+json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HomeDto"
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "OK"
+                }
+              }
+            },
+            "put": {
+              "tags": [
+                "HomeAdmin"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                {
+                  "name": "api-version",
+                  "in": "query",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HomeDto"
+                    }
+                  },
+                  "text/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HomeDto"
+                    }
+                  },
+                  "application/*+json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HomeDto"
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "OK"
+                }
+              }
+            }
+          },
+          "/admin/Homes/{id}": {
+            "delete": {
+              "tags": [
+                "HomeAdmin"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                {
+                  "name": "api-version",
+                  "in": "query",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "OK"
+                }
+              }
+            }
+          },
+          "/admin/Homes/Location/{zipCode}": {
+            "post": {
+              "tags": [
+                "HomeAdmin"
+              ],
+              "parameters": [
+                {
+                  "name": "zipCode",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                {
+                  "name": "api-version",
+                  "in": "query",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "OK"
+                }
+              }
+            }
+          },
+          "/Homes": {
+            "get": {
+              "tags": [
+                "Homes"
+              ],
+              "parameters": [
+                {
+                  "name": "ownerLastName",
+                  "in": "query",
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "api-version",
+                  "in": "query",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "OK"
+                }
+              }
+            }
+          },
+          "/Homes/{id}": {
+            "get": {
+              "tags": [
+                "Homes"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                {
+                  "name": "api-version",
+                  "in": "query",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "OK"
+                }
+              }
+            }
+          },
+          "/Homes/Bang": {
+            "get": {
+              "tags": [
+                "Homes"
+              ],
+              "parameters": [
+                {
+                  "name": "api-version",
+                  "in": "query",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "OK"
+                }
+              }
+            }
+          },
+          "/admin/UtilityProviders": {
+            "post": {
+              "tags": [
+                "UtilityProviderAdmin"
+              ],
+              "parameters": [
+                {
+                  "name": "api-version",
+                  "in": "query",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/UtilityProviderDto"
+                    }
+                  },
+                  "text/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/UtilityProviderDto"
+                    }
+                  },
+                  "application/*+json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/UtilityProviderDto"
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "OK"
+                }
+              }
+            }
+          }
+        },
+        "components": {
+          "schemas": {
+            "HomeDto": {
+              "required": [
+                "ownerLastName"
+              ],
+              "type": "object",
+              "properties": {
+                "ownerLastName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "streetAddress": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "city": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "monthlyElectricUsage": {
+                  "type": "integer",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "utilityProviderIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "nullable": true
+                }
+              },
+              "additionalProperties": false
+            },
+            "UserDtoV1": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "password": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "role": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "homeStreetAddress": {
+                  "type": "string",
+                  "nullable": true
+                }
+              },
+              "additionalProperties": false
+            },
+            "UtilityProviderDto": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "providedUtilities": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "nullable": true
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "securitySchemes": {
+            "ApiKey": {
+              "type": "apiKey",
+              "description": "Custom header for API key",
+              "name": "X-Api-Key",
+              "in": "header"
+            },
+            "Bearer": {
+              "type": "http",
+              "description": "JWT Authorization header. Example: 'Bearer {your token}'",
+              "scheme": "Bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [ ],
+            "Bearer": [ ]
+          }
+        ]
+      }

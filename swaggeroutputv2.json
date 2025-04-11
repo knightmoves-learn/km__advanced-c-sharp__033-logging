@@ -1,0 +1,134 @@
+{
+    "openapi": "3.0.4",
+    "info": {
+      "title": "Home Energy API V2",
+      "version": "v2"
+    },
+    "paths": {
+      "/v2/authentication/register": {
+        "post": {
+          "tags": [
+            "AuthenticationV"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDtoV2"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDtoV2"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDtoV2"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/v2/authentication/token": {
+        "post": {
+          "tags": [
+            "AuthenticationV"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDtoV2"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDtoV2"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDtoV2"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "FullAddress": {
+          "type": "object",
+          "properties": {
+            "streetAddress": {
+              "type": "string",
+              "nullable": true
+            },
+            "city": {
+              "type": "string",
+              "nullable": true
+            },
+            "zipCode": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        },
+        "UserDtoV2": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "nullable": true
+            },
+            "password": {
+              "type": "string",
+              "nullable": true
+            },
+            "role": {
+              "type": "string",
+              "nullable": true
+            },
+            "address": {
+              "$ref": "#/components/schemas/FullAddress"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "securitySchemes": {
+        "ApiKey": {
+          "type": "apiKey",
+          "description": "Custom header for API key",
+          "name": "X-Api-Key",
+          "in": "header"
+        },
+        "Bearer": {
+          "type": "http",
+          "description": "JWT Authorization header. Example: 'Bearer {your token}'",
+          "scheme": "Bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKey": [],
+        "Bearer": []
+      }
+    ]
+  }
