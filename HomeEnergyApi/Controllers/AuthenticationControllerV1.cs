@@ -23,12 +23,14 @@ namespace HomeEnergyApi.Controllers
         private readonly ValueHasher passwordHasher;
         private readonly ValueEncryptor valueEncryptor;
         private readonly IMapper mapper;
+        private readonly ILogger<AuthenticationControllerV2> logger;
 
         public AuthenticationControllerV1(IConfiguration configuration,
                                         IUserRepository userRepository,
                                         ValueHasher passwordHasher,
                                         ValueEncryptor valueEncryptor,
-                                        IMapper mapper)
+                                        IMapper mapper,
+                                        ILogger<AuthenticationControllerV2> logger)
         {
             _issuer = configuration["Jwt:Issuer"];
             _audience = configuration["Jwt:Audience"];
@@ -37,11 +39,16 @@ namespace HomeEnergyApi.Controllers
             this.passwordHasher = passwordHasher;
             this.valueEncryptor = valueEncryptor;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserDtoV1 userDto)
         {
+            logger.LogDebug("debug!");
+            logger.LogInformation("info!");
+            logger.LogWarning("warn!"); 
+            
             var existingUser = userRepository.FindByUsername(userDto.Username);
             if (existingUser != null)
             {

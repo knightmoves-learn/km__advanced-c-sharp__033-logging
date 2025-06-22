@@ -1,9 +1,14 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Meziantou.Extensions.Logging.InMemory;
 using HomeEnergyApi.Dtos;
 using HomeEnergyApi.Models;
 using HomeEnergyApi.Tests.Extensions;
+using Microsoft.AspNetCore.Hosting;
+
 
 
 [TestCaseOrderer("HomeEnergyApi.Tests.Extensions.PriorityOrderer", "HomeEnergyApi.Tests")]
@@ -19,6 +24,26 @@ public class ControllersTests
         _username = System.Guid.NewGuid().ToString();
         _password = "testPass";
     }
+
+    // [Theory, TestPriority(1)]
+    // [InlineData("/Homes/Bang")]
+    // public async Task TestBangLogger(string url)
+    // {
+    //     using var loggerProvider = new InMemoryLoggerProvider();
+
+    //     using var factory = new WebApplicationFactoryDefaultApiKey()
+    //         .WithWebHostBuilder(builder =>
+    //             {
+    //                 builder.ConfigureLogging(builder =>
+    //                 {
+    //                     builder.Services.AddSingleton<ILoggerProvider>(loggerProvider);
+    //                 });
+    //             });
+    //     var client = factory.CreateClient();
+    //     var str = await client.GetStringAsync(url);
+    //     var warning = Assert.Single(loggerProvider.Logs.Warnings);
+    //     Assert.Equal("test", warning.Message);
+    // }
 
     [Theory, TestPriority(1)]
     [InlineData("/Homes")]
@@ -177,6 +202,9 @@ public class ControllersTests
     [InlineData("/Homes/Bang")]
     public async Task HomeEnergyApiAppliesGlobalExceptionFilter(string url)
     {
+        StringWriter writer = new StringWriter();
+        Console.SetOut(writer);
+
         var client = _factory.CreateClient();
         await RegisterUser($"BANG{_username}", _password, "Admin", "123 Test. St");
         string token = await GetBearerToken($"BANG{_username}", _password, "Admin", "123 Test. St", true);
@@ -191,6 +219,9 @@ public class ControllersTests
 
         Assert.True(bangResponseStr == expected,
             $"HomeEnergyApi did not return the expected result on GET request at {url}\nExpected:{expected}\nReceived:{bangResponseStr}");
+
+        var consoleOutput = writer.ToString();
+        Assert.True("test" == consoleOutput, $"consoleOutput:\n {consoleOutput}");
     }
 
     [Fact, TestPriority(9)]
