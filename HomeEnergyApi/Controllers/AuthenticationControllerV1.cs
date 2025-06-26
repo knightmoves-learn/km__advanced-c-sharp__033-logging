@@ -44,11 +44,7 @@ namespace HomeEnergyApi.Controllers
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserDtoV1 userDto)
-        {
-            logger.LogDebug("debug!");
-            logger.LogInformation("info!");
-            logger.LogWarning("warn!"); 
-            
+        {   
             var existingUser = userRepository.FindByUsername(userDto.Username);
             if (existingUser != null)
             {
@@ -58,15 +54,16 @@ namespace HomeEnergyApi.Controllers
             var user = mapper.Map<User>(userDto);
 
             string hashPassword = passwordHasher.HashPassword(userDto.Password);
-            Console.WriteLine("Hashed Password: " + hashPassword);
+            logger.LogInformation("Hashed Password: " + hashPassword);
             user.HashedPassword = hashPassword;
 
             string encryptedStreetAddress = valueEncryptor.Encrypt(userDto.HomeStreetAddress);
-            Console.WriteLine("Encrypted Street Address: " + encryptedStreetAddress);
+            logger.LogInformation("Encrypted Street Address: " + encryptedStreetAddress);
             user.EncryptedAddress = encryptedStreetAddress;
 
 
             userRepository.Save(user);
+            logger.LogDebug("Saved Username:");
             return Ok("User registered successfully.");
         }
 

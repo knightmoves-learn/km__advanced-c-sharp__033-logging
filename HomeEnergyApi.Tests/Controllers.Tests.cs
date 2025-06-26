@@ -3,11 +3,9 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Meziantou.Extensions.Logging.InMemory;
 using HomeEnergyApi.Dtos;
 using HomeEnergyApi.Models;
 using HomeEnergyApi.Tests.Extensions;
-using Microsoft.AspNetCore.Hosting;
 
 
 
@@ -24,26 +22,6 @@ public class ControllersTests
         _username = System.Guid.NewGuid().ToString();
         _password = "testPass";
     }
-
-    // [Theory, TestPriority(1)]
-    // [InlineData("/Homes/Bang")]
-    // public async Task TestBangLogger(string url)
-    // {
-    //     using var loggerProvider = new InMemoryLoggerProvider();
-
-    //     using var factory = new WebApplicationFactoryDefaultApiKey()
-    //         .WithWebHostBuilder(builder =>
-    //             {
-    //                 builder.ConfigureLogging(builder =>
-    //                 {
-    //                     builder.Services.AddSingleton<ILoggerProvider>(loggerProvider);
-    //                 });
-    //             });
-    //     var client = factory.CreateClient();
-    //     var str = await client.GetStringAsync(url);
-    //     var warning = Assert.Single(loggerProvider.Logs.Warnings);
-    //     Assert.Equal("test", warning.Message);
-    // }
 
     [Theory, TestPriority(1)]
     [InlineData("/Homes")]
@@ -202,9 +180,6 @@ public class ControllersTests
     [InlineData("/Homes/Bang")]
     public async Task HomeEnergyApiAppliesGlobalExceptionFilter(string url)
     {
-        StringWriter writer = new StringWriter();
-        Console.SetOut(writer);
-
         var client = _factory.CreateClient();
         await RegisterUser($"BANG{_username}", _password, "Admin", "123 Test. St");
         string token = await GetBearerToken($"BANG{_username}", _password, "Admin", "123 Test. St", true);
@@ -219,9 +194,6 @@ public class ControllersTests
 
         Assert.True(bangResponseStr == expected,
             $"HomeEnergyApi did not return the expected result on GET request at {url}\nExpected:{expected}\nReceived:{bangResponseStr}");
-
-        var consoleOutput = writer.ToString();
-        Assert.True("test" == consoleOutput, $"consoleOutput:\n {consoleOutput}");
     }
 
     [Fact, TestPriority(9)]
@@ -243,6 +215,38 @@ public class ControllersTests
 
         Assert.True(isValidToken,
             $"HomeEnergyApi did not return a valid response trying to receive bearer token for a registered user at v2/authentication/token\nReceived:{token}");
+    }
+
+    [Fact, TestPriority(11)]
+    public async Task HomeEnergyApiCanUseLogger()
+    {
+        var client = _factory.CreateClient();
+        HttpRequestMessage sendRequest = new HttpRequestMessage(HttpMethod.Post, "v1/authentication/register");
+        UserDtoV1 userDto = new();
+        userDto.Username = _username;
+        userDto.Password = _password;
+        userDto.Role = "Admin";
+        userDto.HomeStreetAddress = "321 Logging Ave.";
+        string userDtoStr = JsonSerializer.Serialize(userDto);
+
+        sendRequest.Content = new StringContent(userDtoStr,
+                                        Encoding.UTF8,
+                                        "application/json");
+
+        await client.SendAsync(sendRequest);
+
+        var logs = _factory.LoggerProvider.Logs;
+        Assert.Contains(logs, log => 
+            log.LogLevel == LogLevel.Information &&
+            log.Message.Contains("Encrypted Street Address:"));
+
+        Assert.Contains(logs, log => 
+            log.LogLevel == LogLevel.Information &&
+            log.Message.Contains("Hashed Password:"));
+
+        Assert.Contains(logs, log => 
+            log.LogLevel == LogLevel.Debug &&
+            log.Message.Contains("Saved Username:"));
     }
 
     public async Task<string> GetBearerToken(string username, string password, string role, string homeStreetAddress, bool trimToken)
