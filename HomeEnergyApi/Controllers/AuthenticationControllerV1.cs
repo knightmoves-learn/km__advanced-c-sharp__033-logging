@@ -23,14 +23,14 @@ namespace HomeEnergyApi.Controllers
         private readonly ValueHasher passwordHasher;
         private readonly ValueEncryptor valueEncryptor;
         private readonly IMapper mapper;
-        private readonly ILogger<AuthenticationControllerV2> logger;
+        private readonly ILogger<AuthenticationControllerV1> logger;
 
         public AuthenticationControllerV1(IConfiguration configuration,
                                         IUserRepository userRepository,
                                         ValueHasher passwordHasher,
                                         ValueEncryptor valueEncryptor,
                                         IMapper mapper,
-                                        ILogger<AuthenticationControllerV2> logger)
+                                        ILogger<AuthenticationControllerV1> logger)
         {
             _issuer = configuration["Jwt:Issuer"];
             _audience = configuration["Jwt:Audience"];
@@ -63,7 +63,7 @@ namespace HomeEnergyApi.Controllers
 
 
             userRepository.Save(user);
-            logger.LogDebug("Saved Username:");
+            logger.LogDebug($"Saved Username: {user.Username}");
             return Ok("User registered successfully.");
         }
 
