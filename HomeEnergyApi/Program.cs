@@ -13,8 +13,6 @@ using HomeEnergyApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddLogging();
-
 builder.Services.AddScoped<HomeRepository>();
 builder.Services.AddScoped<IReadRepository<int, Home>>(provider => provider.GetRequiredService<HomeRepository>());
 builder.Services.AddScoped<IWriteRepository<int, Home>>(provider => provider.GetRequiredService<HomeRepository>());

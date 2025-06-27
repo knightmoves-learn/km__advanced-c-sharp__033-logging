@@ -23,14 +23,11 @@ namespace HomeEnergyApi.Controllers
         private readonly ValueHasher passwordHasher;
         private readonly ValueEncryptor valueEncryptor;
         private readonly IMapper mapper;
-        private readonly ILogger<AuthenticationControllerV1> logger;
-
         public AuthenticationControllerV1(IConfiguration configuration,
                                         IUserRepository userRepository,
                                         ValueHasher passwordHasher,
                                         ValueEncryptor valueEncryptor,
-                                        IMapper mapper,
-                                        ILogger<AuthenticationControllerV1> logger)
+                                        IMapper mapper)
         {
             _issuer = configuration["Jwt:Issuer"];
             _audience = configuration["Jwt:Audience"];
@@ -39,7 +36,6 @@ namespace HomeEnergyApi.Controllers
             this.passwordHasher = passwordHasher;
             this.valueEncryptor = valueEncryptor;
             this.mapper = mapper;
-            this.logger = logger;
         }
 
         [HttpPost("register")]
@@ -54,16 +50,15 @@ namespace HomeEnergyApi.Controllers
             var user = mapper.Map<User>(userDto);
 
             string hashPassword = passwordHasher.HashPassword(userDto.Password);
-            logger.LogInformation("Hashed Password: " + hashPassword);
+            Console.WriteLine("Hashed Password: " + hashPassword);
             user.HashedPassword = hashPassword;
 
             string encryptedStreetAddress = valueEncryptor.Encrypt(userDto.HomeStreetAddress);
-            logger.LogInformation("Encrypted Street Address: " + encryptedStreetAddress);
+            Console.WriteLine("Encrypted Street Address: " + encryptedStreetAddress);
             user.EncryptedAddress = encryptedStreetAddress;
 
 
             userRepository.Save(user);
-            logger.LogDebug($"Saved Username: {user.Username}");
             return Ok("User registered successfully.");
         }
 

@@ -5,18 +5,12 @@ namespace HomeEnergyApi.Filters
 {
     public class GlobalExceptionFilter : IExceptionFilter
     {
-    private ILogger<GlobalExceptionFilter> logger;
-    public GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger)
+    public GlobalExceptionFilter()
     {
-        this.logger = logger;
     }
 
     public void OnException(ExceptionContext context)
     {
-        var exception = context.Exception;
-
-        logger.LogError(exception, "An error occurred: {ErrorMessage}", exception.Message);
-
         var response = new
         {
             message = "An unexpected error occurred.",

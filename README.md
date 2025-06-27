@@ -10,7 +10,7 @@ In `HomeEnergyApi/Program.cs`
 - Add the method `AddLogging()` to `builder.services()`
 
 In `HomeEnergyApi/Filters/GlobalExceptionFilter.cs`
-- On `GlobalExceptionFilter` add a private property of type `ILogger<GlobalExceptionFilter>`
+- On `GlobalExceptionFilter` add a private property of type `ILogger<GlobalExceptionFilter>` and add it to the constructor
 - Modify the `OnException()` method so that...
     - The newly added property of type `ILogger<GlobalExceptionFilter>` calls `LogError()` with the following arguments
         - The `Exception` that ocurred
@@ -19,7 +19,7 @@ In `HomeEnergyApi/Filters/GlobalExceptionFilter.cs`
     - Existing functionality should stay in place
 
 In `HomeEnergyApi/Controllers/AuthenticationControllerV1`
-- Add a new private readonly property of type `ILogger<AuthenticationControllerV2>` and add it to the constructor on `AuthenticationControllerV1`
+- Add a new private readonly property of type `ILogger<AuthenticationControllerV2>` and add it to the constructor
 - Modify `Register()` so that...
     - Replace all instances of `Console.WriteLine` with calling `LogInformation()` on the new `ILogger<AuthenticationControllerV2>` property. Log the same information that was previously being written to the console.
     - Call `LogDebug()` on the new `ILogger<AuthenticationControllerV2>` property after the `User` is saved, passing the message `Saved Username: $USERNAME` where $USERNAME is the `Username` of the `User` being saved.
