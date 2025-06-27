@@ -2,7 +2,8 @@
 
 ## Lecture
 
-[![# Logging)](https://img.youtube.com/vi/1E4uIz_DkU4/0.jpg)](https://www.youtube.com/watch?v=1E4uIz_DkU4)
+[![# Logging (Part 1))](https://img.youtube.com/vi/iExU3AKMTHA/0.jpg)](https://www.youtube.com/watch?v=iExU3AKMTHA)
+[![# Logging (Part 2))](https://img.youtube.com/vi/udjCNqYA370/0.jpg)](https://www.youtube.com/watch?v=udjCNqYA370)
 
 ## Instructions
 
