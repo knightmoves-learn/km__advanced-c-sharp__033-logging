@@ -6,9 +6,10 @@ namespace HomeEnergyApi.Filters
     public class GlobalExceptionFilter : IExceptionFilter
     {
 
-    private ILogger<GlobalExceptionFilter> logger;    
+    private ILogger<GlobalExceptionFilter> logger;
     public GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger)
     {
+        this.logger = logger;
     }
 
     public void OnException(ExceptionContext context)

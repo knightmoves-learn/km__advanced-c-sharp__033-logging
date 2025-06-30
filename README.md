@@ -23,7 +23,7 @@ In `HomeEnergyApi/Controllers/AuthenticationControllerV1`
 - Add a new private readonly property of type `ILogger<AuthenticationControllerV2>` and add it to the constructor
 - Modify `Register()` so that...
     - Replace all instances of `Console.WriteLine` with calling `LogInformation()` on the new `ILogger<AuthenticationControllerV2>` property. Log the same information that was previously being written to the console.
-    - Call `LogDebug()` on the new `ILogger<AuthenticationControllerV2>` property after the `User` is saved, passing the message `Saved Username: $USERNAME` where $USERNAME is the `Username` of the `User` being saved.
+    - Call `LogDebug()` on the new `ILogger<AuthenticationControllerV2>` property after the `User` is saved, passing the message `Saved Username: {USERNAME}` where {USERNAME} is the `Username` of the `User` being saved.
 
 
 ## Additional Information
